@@ -1,9 +1,9 @@
 Homebrew-aia
 ============
 
-These formulae provide software needed for [AI Analysis, Inc.](http://www.aianalysis.com) applications that are not available in other homebrew repositories.
+These formulas provide software needed for [AI Analysis, Inc.](http://www.aianalysis.com) applications that are not available in other homebrew repositories.
 
-How do I install these formulae?
+How do I install these formulas?
 --------------------------------
 Just `brew tap dpatriarche/aia` and then `brew install <formula>`.
 
