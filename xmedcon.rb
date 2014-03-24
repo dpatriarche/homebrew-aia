@@ -10,8 +10,9 @@ class Xmedcon < Formula
   depends_on 'gdk-pixbuf'
   depends_on 'pkg-config'
 
-  depends_on :automake
-  depends_on :libtool
+  depends_on :autoconf => :build
+  depends_on :automake => :build
+  depends_on :libtool => :build
 
   def install
     system "autoreconf", "--force", "--install"
