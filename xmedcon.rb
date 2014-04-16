@@ -9,6 +9,7 @@ class Xmedcon < Formula
   depends_on 'gtk+'
   depends_on 'gdk-pixbuf'
   depends_on 'pkg-config'
+  depends_on 'libpng'
 
   depends_on :autoconf => :build
   depends_on :automake => :build
