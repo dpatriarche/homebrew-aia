@@ -8,7 +8,7 @@ class MniPerllib < Formula
   def install
     #system "autoreconf", "--force", "--install"
     #system "./configure", "--with-minc2", "--prefix=#{prefix}", "--disable-dependency-tracking"
-    system "echo | perl Makefile.PL PREFIX=/usr/local/mni"
+    system "echo | perl Makefile.PL INSTALL_BASE=/usr/local/mni"
     system "make install"
   end
 end
