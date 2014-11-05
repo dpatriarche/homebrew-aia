@@ -9,13 +9,15 @@ class MniN3 < Formula
   depends_on 'netcdf'
   depends_on 'mni-ebtks'
 
+  depends_on 'gcc49' => :build
+
   depends_on :autoconf => :build
   depends_on :automake => :build
   depends_on :libtool => :build
 
   def install
     system "autoreconf", "--force", "--install"
-    system "./configure", "CC=/usr/local/bin/gcc-4.2", "CXX=/usr/local/bin/g++-4.2", "--with-minc2", "--prefix=#{prefix}", "--disable-dependency-tracking"
+    system "./configure", "CC=/usr/local/bin/gcc-4.9", "CXX=/usr/local/bin/g++-4.9", "--with-minc2", "--with-build-path=/usr/local", "--prefix=#{prefix}", "--disable-dependency-tracking"
     system "make install"
   end
 end

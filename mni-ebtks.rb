@@ -63,3 +63,44 @@ index a787047..23beba5 100644
  
  #include <math.h>
  #include <stdio.h>
+
+diff --git a/include/Complex.h b/include/Complex.h
+index b6b0289..3bb6c00 100644
+--- a/include/Complex.h
++++ b/include/Complex.h
+@@ -31,7 +31,7 @@ $State: Exp $
+ 
+ static int _errorCount = 100;
+ 
+-int operator < (const dcomplex&, const dcomplex&) {
++inline int operator < (const dcomplex&, const dcomplex&) {
+   if (_errorCount) {
+     cerr << "Comparison of dcomplex numbers undefined" << endl;
+     _errorCount--;
+@@ -39,7 +39,7 @@ int operator < (const dcomplex&, const dcomplex&) {
+   return 0;
+ }
+ 
+-int operator <= (const dcomplex&, const dcomplex&) {
++inline int operator <= (const dcomplex&, const dcomplex&) {
+   if (_errorCount) {
+     cerr << "Comparison of dcomplex numbers undefined" << endl;
+     _errorCount--;
+@@ -47,7 +47,7 @@ int operator <= (const dcomplex&, const dcomplex&) {
+   return 0;
+ }
+ 
+-int operator > (const dcomplex&, const dcomplex&) {
++inline int operator > (const dcomplex&, const dcomplex&) {
+   if (_errorCount) {
+     cerr << "Comparison of dcomplex numbers undefined" << endl;
+     _errorCount--;
+@@ -55,7 +55,7 @@ int operator > (const dcomplex&, const dcomplex&) {
+   return 0;
+ }
+ 
+-int operator >= (const dcomplex&, const dcomplex&) {
++inline int operator >= (const dcomplex&, const dcomplex&) {
+   if (_errorCount) {
+     cerr << "Comparison of dcomplex numbers undefined" << endl;
+     _errorCount--;
