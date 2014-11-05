@@ -2,32 +2,64 @@ require 'formula'
 
 class MniEbtks < Formula
   homepage 'http://en.wikibooks.org/wiki/MINC/Tools'
-  url 'http://packages.bic.mni.mcgill.ca/tgz/ebtks-1.6.4.tar.gz'
-  sha1 '28e793427ca22b686b9a0d6baba86fcd8263938f'
+  #url 'http://packages.bic.mni.mcgill.ca/tgz/ebtks-1.6.4.tar.gz'
+  #sha1 '28e793427ca22b686b9a0d6baba86fcd8263938f'
+  head 'https://github.com/BIC-MNI/EBTKS', :using => :git
 
-  depends_on 'apple-gcc42' => :build
+  depends_on 'gcc49' => :build
 
   depends_on :autoconf => :build
   depends_on :automake => :build
   depends_on :libtool => :build
 
+  patch :DATA
+
   def install
-    # Add an option into configure.ac so that object files live in the same subdirectories as the source files, rather than all being dumped into the root folder.
-    system "sed -e 's/AM_INIT_AUTOMAKE/AM_INIT_AUTOMAKE([subdir-objects])/' configure.ac > configure.ac.tmp && mv configure.ac.tmp configure.ac"
-
-    # Fix compile errors in include/Complex.h
-    system "sed -e 's/static _errorCount = 100;/static int _errorCount = 100;/' -e 's/int operator/inline int operator/' include/Complex.h > Complex.h.tmp && mv Complex.h.tmp include/Complex.h"
-
-    # Fix a compile error in src/FileIO.cc
-    system "echo \"44c44
-<     return *_ipipe;
----
->     return _ipipe;\" > src/FileIO.cc.patch"
-    system "patch src/FileIO.cc src/FileIO.cc.patch"
-    system "rm src/FileIO.cc.patch"
-
     system "autoreconf", "--force", "--install"
-    system "./configure", "CC=/usr/local/bin/gcc-4.2", "CXX=/usr/local/bin/g++-4.2", "--prefix=#{prefix}", "--disable-dependency-tracking"
+    system "./configure", "CC=/usr/local/bin/gcc-4.9", "CXX=/usr/local/bin/g++-4.9", "--prefix=#{prefix}", "--disable-dependency-tracking"
     system "make install"
   end
 end
+
+__END__
+diff --git a/configure.ac b/configure.ac
+index 5a9fd49..96a91d9 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
+ AC_INIT([ebtks],[1.6.4],[Andrew Janke <a.janke@gmail.com>])
+ AC_CONFIG_SRCDIR([src/FileIO.cc])
+ 
+-AM_INIT_AUTOMAKE
++AM_INIT_AUTOMAKE([subdir-objects])
+ 
+ AC_CONFIG_HEADERS([config.h])
+ 
+diff --git a/include/Complex.h b/include/Complex.h
+index f8570f5..b6b0289 100644
+--- a/include/Complex.h
++++ b/include/Complex.h
+@@ -29,7 +29,7 @@ $State: Exp $
+   typedef complex dcomplex;
+ #endif
+ 
+-static _errorCount = 100;
++static int _errorCount = 100;
+ 
+ int operator < (const dcomplex&, const dcomplex&) {
+   if (_errorCount) {
+
+diff --git a/templates/MatrixSupport.cc b/templates/MatrixSupport.cc
+index a787047..23beba5 100644
+--- a/templates/MatrixSupport.cc
++++ b/templates/MatrixSupport.cc
+@@ -21,7 +21,8 @@ $State: Exp $
+ 
+ #ifdef HAVE_MALLOC_H
+ #include <malloc.h>
+-#endif 
++#endif
++#include <stdlib.h>
+ 
+ #include <math.h>
+ #include <stdio.h>
