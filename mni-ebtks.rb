@@ -4,7 +4,7 @@ class MniEbtks < Formula
   homepage 'http://en.wikibooks.org/wiki/MINC/Tools'
   #url 'http://packages.bic.mni.mcgill.ca/tgz/ebtks-1.6.4.tar.gz'
   #sha1 '28e793427ca22b686b9a0d6baba86fcd8263938f'
-  head 'https://github.com/BIC-MNI/EBTKS', :using => :git
+  url 'https://github.com/BIC-MNI/EBTKS', :using => :git, :tag => "87a90dfc0b7cd45375c925e948f8ec10bdeba0cb"
 
   depends_on 'gcc49' => :build
 
