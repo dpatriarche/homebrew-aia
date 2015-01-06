@@ -8,6 +8,7 @@ class MniN3 < Formula
   depends_on 'minc'
   depends_on 'netcdf'
   depends_on 'mni-ebtks'
+  depends_on 'hdf5'
 
   depends_on 'gcc49' => :build
 
