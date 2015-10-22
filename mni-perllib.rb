@@ -3,6 +3,7 @@ require 'formula'
 class MniPerllib < Formula
   homepage 'http://en.wikibooks.org/wiki/MINC/Tools'
   url 'http://packages.bic.mni.mcgill.ca/tgz/mni_perllib-0.08.tar.gz'
+  version '0.08'
   sha1 '20c76d7e7d229533d1e3e68d02440fa189ae6daa'
 
   def install

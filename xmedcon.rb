@@ -3,6 +3,7 @@ require 'formula'
 class Xmedcon < Formula
   homepage 'http://xmedcon.sourceforge.net'
   url 'http://downloads.sourceforge.net/project/xmedcon/XMedCon-Source/0.13.0/xmedcon-0.13.0.tar.bz2'
+  version '0.13.0'
   sha1 'ab252b50ad9c99f9f8936e6c90f704c122f72a8e'
 
   depends_on 'glib'

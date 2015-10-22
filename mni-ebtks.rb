@@ -6,7 +6,7 @@ class MniEbtks < Formula
   #sha1 '28e793427ca22b686b9a0d6baba86fcd8263938f'
   head 'https://github.com/BIC-MNI/EBTKS', :using => :git, :revision => "87a90dfc0b7cd45375c925e948f8ec10bdeba0cb"
 
-  depends_on 'gcc49' => :build
+  depends_on 'gcc' => :build
 
   depends_on :autoconf => :build
   depends_on :automake => :build
@@ -16,7 +16,7 @@ class MniEbtks < Formula
 
   def install
     system "autoreconf", "--force", "--install"
-    system "./configure", "CC=/usr/local/bin/gcc-4.9", "CXX=/usr/local/bin/g++-4.9", "--prefix=#{prefix}", "--disable-dependency-tracking"
+    system "./configure", "CC=/usr/local/bin/gcc-5", "CXX=/usr/local/bin/g++-5", "--prefix=#{prefix}", "--disable-dependency-tracking"
     system "make install"
   end
 end
