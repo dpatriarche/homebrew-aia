@@ -9,8 +9,8 @@ class NiftyReg < Formula
   version "1.5.41"
   sha256 "8906a1f5082501cc1f219ddf6149ef17fe45563a51523dc314a016a8fc7de83e"
 
-  depends_on "doxygen"
   depends_on "libpng"
+  depends_on "doxygen" => :build
   depends_on "cmake" => :build
   depends_on "gcc5" => :build
 

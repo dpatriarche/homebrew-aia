@@ -1,31 +1,36 @@
 class Orthanc < Formula
   desc "Open-source, lightweight DICOM server"
   homepage "http://orthanc-server.com"
-  version "1.1.0-1-f2ecea5"
-  url "https://bitbucket.org/sjodogne/orthanc/get/f2ecea5362fa.zip"
-  sha256 "a80b487f10986da7583693cc2bce651b727d1e418048bc508513e7d12ed64b0c"
-  head "https://github.com/some/package.git", :branch => "Orthanc-1.1.0"
+  version "1.2.0"
+  url "https://bitbucket.org/sjodogne/orthanc/get/Orthanc-1.2.0.zip"
+  sha256 "4fa0014bff255cfff80d0913c17a40db406c7853a56696bd20a8da9191b366ad"
+  head "https://bitbucket.org/sjodogne/orthanc.git", :branch => "Orthanc-1.2.0"
 
+  depends_on "doxygen" => :build
   depends_on "cmake" => :build
+  depends_on "gcc5" => :build
+
+  # -DSTANDALONE_BUILD=ON
+  # -DALLOW_DOWNLOADS=ON
 
   def install
-    args = %W[
-      -GXcode
-      -DCMAKE_OSX_DEPLOYMENT_TARGET=#{MacOS.version}
-      -DSTATIC_BUILD=ON
-      -DSTANDALONE_BUILD=ON
-      -DALLOW_DOWNLOADS=ON
-    ]
-    system "cmake", *args, "."
-    system "xcodebuild", "-configuration", "Release"
-    system "Release/Orthanc", "--config=Release/sample-config.json"
-    prefix.install Dir["Release/*"]
+    mkdir "build" do
+      args = %W[
+        -DSTATIC_BUILD=ON
+        -DCMAKE_BUILD_TYPE=Release
+        -DCMAKE_INSTALL_PREFIX=#{prefix}
+        -DCMAKE_C_COMPILER=gcc-5
+        -DCMAKE_CXX_COMPILER=g++-5
+      ]
+      system "cmake", *args, ".."
+      system "make", "install"
+    end
   end
 
   def post_install
     (var/"orthanc").mkpath
     unless File.exist? "#{var}/orthanc/config.json"
-      system "cp", "#{prefix}/sample-config.json", "#{var}/orthanc/config.json"
+      system "cp", "Resources/Configuration.json", "#{var}/orthanc/config.json"
     end
   end
 
@@ -52,7 +57,7 @@ class Orthanc < Formula
       <string>#{plist_name}</string>
       <key>ProgramArguments</key>
       <array>
-        <string>#{prefix}/Orthanc</string>
+        <string>#{prefix}/sbin/Orthanc</string>
         <string>#{var}/orthanc/config.json</string>
       </array>
       <key>RunAtLoad</key>
