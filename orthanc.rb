@@ -1,17 +1,13 @@
 class Orthanc < Formula
   desc "Open-source, lightweight DICOM server"
   homepage "http://orthanc-server.com"
-  version "1.2.0"
-  url "https://bitbucket.org/sjodogne/orthanc/get/Orthanc-1.2.0.zip"
-  sha256 "4fa0014bff255cfff80d0913c17a40db406c7853a56696bd20a8da9191b366ad"
-  head "https://bitbucket.org/sjodogne/orthanc.git", :branch => "Orthanc-1.2.0"
+  version "1.3.1"
+  url "https://bitbucket.org/sjodogne/orthanc/get/Orthanc-1.3.1.zip"
+  sha256 "5eb8760805de5b598c81bebff5ffe34d333295800100f4e2e3ddd6dfee126817"
+  head "https://bitbucket.org/sjodogne/orthanc.git", :branch => "Orthanc-1.3.1"
 
   depends_on "doxygen" => :build
   depends_on "cmake" => :build
-  depends_on "gcc5" => :build
-
-  # -DSTANDALONE_BUILD=ON
-  # -DALLOW_DOWNLOADS=ON
 
   def install
     mkdir "build" do
@@ -19,8 +15,6 @@ class Orthanc < Formula
         -DSTATIC_BUILD=ON
         -DCMAKE_BUILD_TYPE=Release
         -DCMAKE_INSTALL_PREFIX=#{prefix}
-        -DCMAKE_C_COMPILER=gcc-5
-        -DCMAKE_CXX_COMPILER=g++-5
       ]
       system "cmake", *args, ".."
       system "make", "install"
@@ -31,6 +25,8 @@ class Orthanc < Formula
     (var/"orthanc").mkpath
     unless File.exist? "#{var}/orthanc/config.json"
       system "cp", "Resources/Configuration.json", "#{var}/orthanc/config.json"
+    else
+      system "cp", "Resources/Configuration.json", "#{var}/orthanc/config-ORIG.json"
     end
   end
 
