@@ -3,14 +3,20 @@ require "formula"
 class Ants < Formula
   desc "Advanced Normalization Tools"
   homepage "https://stnava.github.io/ANTs/"
-  url "https://github.com/stnava/ANTs/releases/download/v2.1.0/Yosemite.tar.bz2.zip"
-  version "2.1.0"
-  sha256 "e44831b24bdc30f32333477618cc6a093e532f1a0c41b2dbb935412b4d884b2f"
+  url "https://github.com/ANTsX/ANTs/archive/v2.3.1.tar.gz"
+  version "2.3.1"
+  sha256 "c0680feab0ebb85c8cd6685043126666929b35e1cf387a5cc1d3a2d7169bddd3"
 
   bottle :unneeded
 
+  depends_on "doxygen" => :build
+  depends_on "cmake" => :build
+
   def install
-    system "tar", "-xjf", "Yosemite.tar.bz2", "bin/N4BiasFieldCorrection"
-    bin.install "bin/N4BiasFieldCorrection"
+    mkdir "build" do
+      system "cmake", "-DCMAKE_BUILD_TYPE=Release", "-DCMAKE_INSTALL_PREFIX=" + prefix, "-DRUN_LONG_TESTS=off", ".."
+      system "make", "-j", "4"
+      bin.install "bin/N4BiasFieldCorrection"
+    end
   end
 end
