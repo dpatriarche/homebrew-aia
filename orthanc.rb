@@ -1,10 +1,10 @@
 class Orthanc < Formula
   desc "Open-source, lightweight DICOM server"
   homepage "http://orthanc-server.com"
-  version "1.3.1"
-  url "https://bitbucket.org/sjodogne/orthanc/get/Orthanc-1.3.1.zip"
-  sha256 "5eb8760805de5b598c81bebff5ffe34d333295800100f4e2e3ddd6dfee126817"
-  head "https://bitbucket.org/sjodogne/orthanc.git", :branch => "Orthanc-1.3.1"
+  version "1.5.6"
+  url "https://bitbucket.org/sjodogne/orthanc/get/Orthanc-1.5.6.zip"
+  sha256 "b3a67a644b76bb366696aa70088e88c106f080f8a86cbfc2276dff26e77ed70e"
+  head "https://bitbucket.org/sjodogne/orthanc.git", :branch => "Orthanc-1.5.6"
 
   depends_on "doxygen" => :build
   depends_on "cmake" => :build
@@ -30,7 +30,8 @@ class Orthanc < Formula
     end
   end
 
-  def caveats; <<-EOS.undent
+  def caveats;
+    <<~EOS
     For more information about configuring and running Orthanc refer to the Orthanc Book:
       https://orthanc.chu.ulg.ac.be/book/index.html
 
@@ -42,7 +43,8 @@ class Orthanc < Formula
     EOS
   end
 
-  def plist; <<-EOS.undent
+  def plist
+    <<~EOS
     <?xml version="1.0" encoding="UTF-8"?>
     <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
     <plist version="1.0">
