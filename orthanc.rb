@@ -1,10 +1,10 @@
 class Orthanc < Formula
   desc "Open-source, lightweight DICOM server"
   homepage "http://orthanc-server.com"
-  version "1.6.0"
-  url "https://bitbucket.org/sjodogne/orthanc/get/Orthanc-1.6.0.zip"
-  sha256 "9721b0b62e9b48f01a314d3dd0407981a09bc5ccd8e42b0c930f2f52f878b643"
-  head "https://bitbucket.org/sjodogne/orthanc.git", :branch => "Orthanc-1.6.0"
+  version "1.6.1"
+  url "https://www.orthanc-server.com/downloads/get.php?path=/orthanc/Orthanc-1.6.1.tar.gz"
+  sha256 "86f6e1a79bc93f082fd5243dd4daaf5a2ea05fcdf515cf35f100829c5fe5c4df"
+  head "https://hg.orthanc-server.com/orthanc/shortlog/default", :branch => "Orthanc-1.6.1"
 
   depends_on "doxygen" => :build
   depends_on "cmake" => :build
@@ -20,12 +20,12 @@ class Orthanc < Formula
 
       #--------------------------------------------------------------------------------
       #
-      # IMPORTANT: Fix a bug in the version 1.6.0 cmake scripts. THe script refers to
-      # files libConnectivityChecks.tbd.1.6.0 and libConnectivityChecks.tbd rather
+      # IMPORTANT: Fix a bug in the version 1.6.1 cmake scripts. The script refers to
+      # files libConnectivityChecks.tbd.1.6.1 and libConnectivityChecks.tbd rather
       # than the real names of the file (below).
       #
       contents = File.read("cmake_install.cmake")
-      contents.gsub!(/libConnectivityChecks\.tbd\.1\.6\.0/, "libConnectivityChecks.1.6.0.dylib")
+      contents.gsub!(/libConnectivityChecks\.tbd\.1\.6\.1/, "libConnectivityChecks.1.6.1.dylib")
       contents.gsub!(/libConnectivityChecks\.tbd/, "libConnectivityChecks.dylib")
       File.open("cmake_install.cmake", 'w') do |out|
         out << contents
@@ -33,17 +33,25 @@ class Orthanc < Formula
       #--------------------------------------------------------------------------------
 
       system "make", "install"
+
+      (var/"orthanc").mkpath
+      unless File.exist? "#{var}/orthanc/config.json"
+        system "cp", "../Resources/Configuration.json", "#{var}/orthanc/config.json"
+      else
+        system "cp", "../Resources/Configuration.json", "#{var}/orthanc/config-ORIG.XXX.json"
+      end
+
     end
   end
 
-  def post_install
-    (var/"orthanc").mkpath
-    unless File.exist? "#{var}/orthanc/config.json"
-      system "cp", "Resources/Configuration.json", "#{var}/orthanc/config.json"
-    else
-      system "cp", "Resources/Configuration.json", "#{var}/orthanc/config-ORIG.json"
-    end
-  end
+  # def post_install
+  #   (var/"orthanc").mkpath
+  #   unless File.exist? "#{var}/orthanc/config.json"
+  #     system "cp", "Resources/Configuration.json", "#{var}/orthanc/config.json"
+  #   else
+  #     system "cp", "Resources/Configuration.json", "#{var}/orthanc/config-ORIG.json"
+  #   end
+  # end
 
   def caveats;
     <<~EOS
